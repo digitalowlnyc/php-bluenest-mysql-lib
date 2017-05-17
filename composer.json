@@ -8,5 +8,8 @@
             "email": "bryan@bluenestdigital.com"
         }
     ],
-    "require": {}
+    "require": {},
+    "autoload": {
+        "classmap": ["."]
+    }
 }
