@@ -1,0 +1,12 @@
+{
+    "name": "bluenest/mysql-lib",
+    "description": "MySQL library",
+    "license": "All Rights Reserved",
+    "authors": [
+        {
+            "name": "Bryan",
+            "email": "bryan@bluenestdigital.com"
+        }
+    ],
+    "require": {}
+}
