@@ -2,6 +2,7 @@
     "name": "bluenest/mysql-lib",
     "description": "MySQL library",
     "license": "All Rights Reserved",
+    "version": "1.0",
     "authors": [
         {
             "name": "Bryan",

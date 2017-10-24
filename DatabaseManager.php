@@ -15,12 +15,12 @@ if(!defined('NL')) {
 
 class DatabaseManager {
 
-    var $databaseAddress;
-    var $username;
-    var $password;
-    var $database = null;
-    var $useMysql = false; // if true, use old mysql package instead of mysqli
-    var $verboseQuery = true;
+    private $databaseAddress;
+    private $username;
+    private $password;
+    private $database = null;
+    private $useMysql = false; // if true, use old mysql package instead of mysqli
+    private $verboseQuery = true;
 
     /** @var Mysqli */
     var $connection;
@@ -31,6 +31,16 @@ class DatabaseManager {
         } else {
             return mysqli_error($connection);
         }
+    }
+
+    static function fromMyslConnection(MySqlConnection $mysqlConn) {
+        return new DatabaseManager(
+            $mysqlConn->host . ":" . $mysqlConn->port,
+            $mysqlConn->user,
+            $mysqlConn->pass,
+            $mysqlConn->database,
+            true
+        );
     }
 
     function __construct($databaseAddress, $username, $password, $database = null, $createConnection = false)

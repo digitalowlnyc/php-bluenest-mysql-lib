@@ -1,6 +1,6 @@
 <?php
 
-require "DatabaseManager.php";
+require_once "DatabaseManager.php";
 
 /**
  * User: Bryan Mayor
