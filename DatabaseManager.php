@@ -13,7 +13,8 @@ if(!defined('NL')) {
     define('NL', PHP_EOL);
 }
 
-class DatabaseManager {
+class DatabaseManager
+{
 
     private $databaseAddress;
     private $username;
@@ -43,14 +44,13 @@ class DatabaseManager {
         );
     }
 
-    function __construct($databaseAddress, $username, $password, $database = null, $createConnection = false)
-    {
+    function __construct($databaseAddress, $username, $password, $database = null, $createConnection = false) {
         $this->databaseAddress = $databaseAddress;
         $this->username = $username;
         $this->password = $password;
         $this->database = $database;
 
-        if($createConnection){
+        if($createConnection) {
             $this->connect();
         }
     }
@@ -78,16 +78,14 @@ class DatabaseManager {
         }
     }
 
-    function setDatabase($databaseName)
-    {
+    function setDatabase($databaseName) {
         if(!$this->connection->select_db($databaseName)) {
             die("Could not set database to $databaseName: " . $this->mysqlError($this->connection));
         }
         $this->database = $databaseName;
     }
 
-    function connect()
-    {
+    function connect() {
         if($this->useMysql) {
             $connection = mysql_connect($this->databaseAddress, $this->username, $this->password, $this->database);
         } else {
@@ -107,15 +105,23 @@ class DatabaseManager {
         $this->connection->close();
     }
 
-    function disconnect()
-    {
+    function disconnect() {
         $this->close();
+    }
+
+    function doQuerySingleValue($sql, $col, $parseRow = false) {
+        $res = $this->doQuerySingleRow($sql, $parseRow);
+        return $res[$col];
+    }
+
+    function doQuerySingleRow($sql, $parseRow = false) {
+        $res = $this->doQuery($sql, $parseRow);
+        return $res[0];
     }
 
     // Execute a query. Preferable to use doPreparedStatement for
     // security purposes.
-    function doQuery($sql, $parseRow = false)
-    {
+    function doQuery($sql, $parseRow = false) {
         if($this->verboseQuery) {
             echo 'Querying: ' . $sql . ' in database ' . $this->database . NL;
         }
@@ -131,21 +137,21 @@ class DatabaseManager {
         }
 
         $resultArray = array();
-        while ($row = $result->fetch_array($fetchMode)) {
+        while($row = $result->fetch_array($fetchMode)) {
             if($parseRow) {
                 $this->parseRow($row);
             }
             $resultArray[] = $row;
         }
 
-        return($resultArray);
+        return ($resultArray);
     }
 
     // Execute prepared statement and return result as array of keyed-arrays
     function doPreparedStatement($preparedStatement, $bindParameters) {
         $fetchMode = $this->useMysql ? MYSQL_ASSOC : MYSQLI_ASSOC;
 
-        if ($stmt = $this->connection->prepare($preparedStatement)) {
+        if($stmt = $this->connection->prepare($preparedStatement)) {
 
             /* bind parameters for markers */
             foreach($bindParameters as $parm=>$val) {
@@ -157,7 +163,7 @@ class DatabaseManager {
             $result = $stmt->get_result();
 
             $resultArray = array();
-            while ($row = $result->fetch_array($fetchMode)) {
+            while($row = $result->fetch_array($fetchMode)) {
                 $resultArray[] = $row;
             }
 
@@ -212,7 +218,8 @@ class DatabaseManager {
     }
 }
 
-class DatabaseManagerBuilder {
+class DatabaseManagerBuilder
+{
     private $host = null;
     private $database = null;
     private $username = null;
